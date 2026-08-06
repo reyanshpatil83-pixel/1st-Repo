@@ -1,0 +1,40 @@
+import java.util.HashMap;
+
+public class HashIndexing {
+
+    public static void main(String[] args) {
+
+        // Create a HashMap for indexing
+        HashMap<Integer, String> index = new HashMap<>();
+
+        // Insert records
+        index.put(101, "Alice");
+        index.put(102, "Bob");
+        index.put(103, "Charlie");
+        index.put(104, "David");
+
+        // Display all records
+        System.out.println("Hash Index:");
+        for (Integer key : index.keySet()) {
+            System.out.println("Key: " + key + " -> Value: " + index.get(key));
+        }
+
+        // Search for a record
+        int searchKey = 103;
+
+        if (index.containsKey(searchKey)) {
+            System.out.println("\nRecord Found:");
+            System.out.println("Key: " + searchKey + " -> " + index.get(searchKey));
+        } else {
+            System.out.println("\nRecord Not Found.");
+        }
+
+        // Delete a record
+        index.remove(102);
+
+        System.out.println("\nAfter Deletion:");
+        for (Integer key : index.keySet()) {
+            System.out.println("Key: " + key + " -> Value: " + index.get(key));
+        }
+    }
+}
