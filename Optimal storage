@@ -1,0 +1,26 @@
+import java.util.*;
+
+public class OptimalStorageOnTape {
+    public static void main(String[] args) {
+        int[] files = {5, 10, 3, 8, 2};
+
+        Arrays.sort(files);
+
+        int totalTime = 0;
+        int currentTime = 0;
+
+        System.out.println("Optimal order:");
+
+        for (int file : files) {
+            currentTime += file;
+            totalTime += currentTime;
+            System.out.print(file + " ");
+        }
+
+        double averageRetrievalTime =
+                (double) totalTime / files.length;
+
+        System.out.println("\nTotal retrieval time: " + totalTime);
+        System.out.println("Average retrieval time: " + averageRetrievalTime);
+    }
+}
