@@ -1,0 +1,90 @@
+import java.util.*;
+
+public class Dijkstra {
+
+    static final int INF = Integer.MAX_VALUE;
+
+    static int[] dijkstra(int[][] graph, int source, int n) {
+
+        int[] distance = new int[n];
+        boolean[] visited = new boolean[n];
+
+        // Initialize distances
+        for (int i = 0; i < n; i++) {
+            distance[i] = INF;
+            visited[i] = false;
+        }
+
+        distance[source] = 0;
+
+        // Main algorithm
+        for (int count = 0; count < n; count++) {
+
+            // Find unvisited vertex with minimum distance
+            int u = -1;
+            int minDistance = INF;
+
+            for (int i = 0; i < n; i++) {
+                if (!visited[i] && distance[i] < minDistance) {
+                    minDistance = distance[i];
+                    u = i;
+                }
+            }
+
+            // No reachable vertex remains
+            if (u == -1) {
+                break;
+            }
+
+            visited[u] = true;
+
+            // Update distances of adjacent vertices
+            for (int v = 0; v < n; v++) {
+
+                if (!visited[v] &&
+                    graph[u][v] != 0 &&
+                    distance[u] != INF &&
+                    distance[u] + graph[u][v] < distance[v]) {
+
+                    distance[v] = distance[u] + graph[u][v];
+                }
+            }
+        }
+
+        return distance;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int n = sc.nextInt();
+
+        int[][] graph = new int[n][n];
+
+        System.out.println("Enter the adjacency matrix:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                graph[i][j] = sc.nextInt();
+            }
+        }
+
+        System.out.print("Enter source vertex: ");
+        int source = sc.nextInt();
+
+        int[] distance = dijkstra(graph, source, n);
+
+        System.out.println("\nShortest distances from vertex " + source + ":");
+
+        for (int i = 0; i < n; i++) {
+            if (distance[i] == INF) {
+                System.out.println("Vertex " + i + " : INF");
+            } else {
+                System.out.println("Vertex " + i + " : " + distance[i]);
+            }
+        }
+
+        sc.close();
+    }
+}
