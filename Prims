@@ -1,0 +1,100 @@
+import java.util.*;
+
+public class PrimMST {
+
+    // Find vertex with minimum key value
+    static int minKey(int[] key, boolean[] mstSet, int V) {
+
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
+
+        for (int v = 0; v < V; v++) {
+            if (!mstSet[v] && key[v] < min) {
+                min = key[v];
+                minIndex = v;
+            }
+        }
+
+        return minIndex;
+    }
+
+    // Prim's Algorithm
+    static void primMST(int[][] graph, int V) {
+
+        int[] parent = new int[V];
+        int[] key = new int[V];
+        boolean[] mstSet = new boolean[V];
+
+        // Initialize keys as infinity
+        // and MST set as false
+        for (int i = 0; i < V; i++) {
+            key[i] = Integer.MAX_VALUE;
+            mstSet[i] = false;
+        }
+
+        // Start from vertex 0
+        key[0] = 0;
+        parent[0] = -1;
+
+        // Construct MST
+        for (int count = 0; count < V - 1; count++) {
+
+            // Pick minimum key vertex
+            int u = minKey(key, mstSet);
+
+            // Add vertex to MST
+            mstSet[u] = true;
+
+            // Update adjacent vertices
+            for (int v = 0; v < V; v++) {
+
+                if (graph[u][v] != 0 &&
+                    !mstSet[v] &&
+                    graph[u][v] < key[v]) {
+
+                    parent[v] = u;
+                    key[v] = graph[u][v];
+                }
+            }
+        }
+
+        // Print MST
+        System.out.println("\nEdge\tWeight");
+
+        int totalWeight = 0;
+
+        for (int i = 1; i < V; i++) {
+            System.out.println(
+                parent[i] + " - " + i + "\t" + graph[i][parent[i]]
+            );
+
+            totalWeight += graph[i][parent[i]];
+        }
+
+        System.out.println("\nTotal MST Weight: " + totalWeight);
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        int[][] graph = new int[V][V];
+
+        System.out.println(
+            "Enter the adjacency matrix (use 0 for no edge):"
+        );
+
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                graph[i][j] = sc.nextInt();
+            }
+        }
+
+        primMST(graph, V);
+
+        sc.close();
+    }
+}
